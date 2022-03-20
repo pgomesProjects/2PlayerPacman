@@ -10,6 +10,8 @@ public class PacmanController : PlayerController
     {
         playerCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
+        rotDegree = transform.rotation.z;
+        canRotateSprite = true;
         canMove = true;
     }
 

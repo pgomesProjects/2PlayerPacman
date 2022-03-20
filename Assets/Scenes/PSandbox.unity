@@ -8073,9 +8073,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 485668830986506841, guid: f2ca21be3ff048b4692834a5b1aaf955, type: 3}
+      propertyPath: canRotateSprite
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485668830986506843, guid: f2ca21be3ff048b4692834a5b1aaf955, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 485668830986506843, guid: f2ca21be3ff048b4692834a5b1aaf955, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 485668830986507174, guid: f2ca21be3ff048b4692834a5b1aaf955, type: 3}
       propertyPath: m_Name
       value: Pacman
+      objectReference: {fileID: 0}
+    - target: {fileID: 485668830986507175, guid: f2ca21be3ff048b4692834a5b1aaf955, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 85d115d4490b82a4892a44ea7cc427c3, type: 3}
+    - target: {fileID: 485668830986507175, guid: f2ca21be3ff048b4692834a5b1aaf955, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485668830986507175, guid: f2ca21be3ff048b4692834a5b1aaf955, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485668830986507175, guid: f2ca21be3ff048b4692834a5b1aaf955, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2ca21be3ff048b4692834a5b1aaf955, type: 3}
@@ -8086,6 +8114,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7852078361437830987, guid: cb829666712eead45931b204766827f6, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852078361437830987, guid: cb829666712eead45931b204766827f6, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7852078361437830996, guid: cb829666712eead45931b204766827f6, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -8133,6 +8169,22 @@ PrefabInstance:
     - target: {fileID: 7852078361437830998, guid: cb829666712eead45931b204766827f6, type: 3}
       propertyPath: m_Name
       value: Ghost
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852078361437830999, guid: cb829666712eead45931b204766827f6, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4b9a4eb841daf8f46b45167c756ca311, type: 3}
+    - target: {fileID: 7852078361437830999, guid: cb829666712eead45931b204766827f6, type: 3}
+      propertyPath: m_Color.b
+      value: 0.13084126
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852078361437830999, guid: cb829666712eead45931b204766827f6, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852078361437830999, guid: cb829666712eead45931b204766827f6, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb829666712eead45931b204766827f6, type: 3}

@@ -10,11 +10,13 @@ public abstract class PlayerController : MonoBehaviour
     public float speed = 3f;
     private float horizontal, vertical;
     private Vector2 direction = new Vector2(1, 0);
+    protected float rotDegree;
     protected bool canMove;
     protected BoxCollider2D playerCollider;
     protected bool canMoveUp, canMoveDown, canMoveLeft, canMoveRight;
     protected Rigidbody2D rb2D;
     [SerializeField] private LayerMask levelMask;
+    protected bool canRotateSprite;
 
     protected void GetPlayerInput()
     {
@@ -34,6 +36,7 @@ public abstract class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //Creates box casts which detect whether there are walls on each side of the player
         Vector2 boxPosUp = new Vector2(transform.position.x, transform.position.y + 0.5f);
         Vector2 boxPosDown = new Vector2(transform.position.x, transform.position.y - 0.5f);
         Vector2 boxPosLeft = new Vector2(transform.position.x - 0.5f, transform.position.y);
@@ -47,22 +50,29 @@ public abstract class PlayerController : MonoBehaviour
         //Move the player accordingly based on input
         if (horizontal != 0 && horizontal != direction.x)
         {
+            //If the player is moving left or right and is not blocked by doing so, let them
             if ((horizontal > 0 && canMoveRight) || (horizontal < 0 && canMoveLeft))
             {
                 direction.x = horizontal;
                 direction.y = 0;
+                if(canRotateSprite)
+                    FlipSprite(0, (int)direction.x);
             }
         }
 
         if (vertical != 0 && vertical != direction.y)
         {
+            //If the player is moving up or down and is not blocked by doing so, let them
             if ((vertical > 0 && canMoveUp) || (vertical < 0 && canMoveDown))
             {
                 direction.x = 0;
                 direction.y = vertical;
+                if(canRotateSprite)
+                    FlipSprite(1, (int)direction.y);
             }
         }
 
+        //If the player can move, move their position automatically
         if (canMove)
         {
             Vector2 position = transform.position;
@@ -72,9 +82,27 @@ public abstract class PlayerController : MonoBehaviour
         }
     }
 
+    private void FlipSprite(int axis, int direction)
+    {
+        //Rotate back to zero degrees
+        gameObject.transform.Rotate(0.0f, 0.0f, -rotDegree, Space.World);
+        switch (axis)
+        {
+            case 0:
+                rotDegree = 90 - (direction * 90);
+                break;
+            case 1:
+                rotDegree = direction * 90;
+                break;
+        }
+        //Rotate object based on the direction that they are moving
+        gameObject.transform.Rotate(0.0f, 0.0f, rotDegree, Space.World);
+    }//end of FlipSprite
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
+        //Draws the box casts in the Unity editor
         Gizmos.color = Color.blue;
         Vector2 boxPosUp = new Vector2(transform.position.x, transform.position.y + 0.5f);
         Vector2 boxPosDown = new Vector2(transform.position.x, transform.position.y - 0.5f);

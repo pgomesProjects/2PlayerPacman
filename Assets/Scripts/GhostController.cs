@@ -12,6 +12,8 @@ public class GhostController : PlayerController
         playerCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
         canMove = false;
+        rotDegree = transform.rotation.z;
+        canRotateSprite = false;
         StartCoroutine(MovementCooldown());
     }
 
