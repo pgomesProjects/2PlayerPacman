@@ -7,6 +7,12 @@ TagManager:
   - Pacman
   - Ghost
   - Pellet
+  - gameOverText
+  - livesCounter
+  - Life
+  - Life One
+  - Life Two
+  - Life Three
   layers:
   - Default
   - TransparentFX

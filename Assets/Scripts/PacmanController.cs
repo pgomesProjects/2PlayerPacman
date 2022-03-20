@@ -2,11 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using TMPro;
 
 public class PacmanController : PlayerController
+
 {
-    // Start is called before the first frame update
-    void Start()
+    //adding life counter 
+    public int life;
+    public TextMeshProUGUI lifeText;
+
+// Start is called before the first frame update
+void Start()
     {
         playerCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
@@ -46,6 +52,17 @@ public class PacmanController : PlayerController
             //Find the position on the map of the collided pellet and destroy it
             Vector3Int pelletPosition = layoutGrid.WorldToCell(pacManColliderPoint.point);
             pelletMap.SetTile(pelletPosition, null);
+
+          
         }
+
     }
+   
+    private void UpdateLife(int lifetoAdd)
+    {
+        life += lifetoAdd;
+        lifeText.text = "Life" + life;
+    }
+
+
 }
