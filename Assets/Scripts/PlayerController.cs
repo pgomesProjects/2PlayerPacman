@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D), typeof(Rigidbody2D))]
 public abstract class PlayerController : MonoBehaviour
 {
-    public enum Player {PLAYERONE, PLAYERTWO};
+    public enum Player { PLAYERONE, PLAYERTWO };
     public Player playerType;
     public float speed = 3f;
     private float horizontal, vertical;
@@ -87,4 +87,6 @@ public abstract class PlayerController : MonoBehaviour
         Gizmos.DrawWireCube(boxPosRight, scale);
     }
 #endif
+
+  
 }

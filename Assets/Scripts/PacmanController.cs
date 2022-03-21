@@ -10,19 +10,36 @@ public class PacmanController : PlayerController
     //adding life counter 
     public int life;
     public TextMeshProUGUI lifeText;
+    public GameObject Pacman;
+    private Vector3 warp;
+    private Vector3 teleport;
 
-// Start is called before the first frame update
-void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         playerCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
         canMove = true;
+       //Adding Warp Points
+        warp = new Vector3(13, 7, 0);
+        teleport = new Vector3(-13, 7, 0);
+
     }
 
     // Update is called once per frame
     void Update()
     {
         GetPlayerInput();
+        //Warping if too far left or right
+        if(transform.position.x > warp.x)
+        {
+            transform.position = teleport;
+        }
+
+        if(transform.position.x < teleport.x)
+        {
+            transform.position = warp;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -36,7 +53,7 @@ void Start()
             Tilemap pelletMap = collision.collider.GetComponent<Tilemap>();
             Grid layoutGrid = pelletMap.layoutGrid;
             ContactPoint2D pacManColliderPoint = new ContactPoint2D();
-            for(int i = 0; i < allContactPoints.Count; i++)
+            for (int i = 0; i < allContactPoints.Count; i++)
             {
                 if (allContactPoints[i].collider != null)
                 {
@@ -53,16 +70,9 @@ void Start()
             Vector3Int pelletPosition = layoutGrid.WorldToCell(pacManColliderPoint.point);
             pelletMap.SetTile(pelletPosition, null);
 
-          
+
+
         }
 
-    }
-   
-    private void UpdateLife(int lifetoAdd)
-    {
-        life += lifetoAdd;
-        lifeText.text = "Life" + life;
-    }
-
-
+      }
 }

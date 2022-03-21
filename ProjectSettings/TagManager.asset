@@ -13,6 +13,10 @@ TagManager:
   - Life One
   - Life Two
   - Life Three
+  - Warp
+  - Teleport
+  - Pacman1
+  - Pacman2
   layers:
   - Default
   - TransparentFX
