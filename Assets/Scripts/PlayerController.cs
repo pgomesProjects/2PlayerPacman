@@ -8,8 +8,9 @@ public abstract class PlayerController : MonoBehaviour
     public enum Player {PLAYERONE, PLAYERTWO};
     public Player playerType;
     public float speed = 3f;
-    private float horizontal, vertical;
-    private Vector2 direction = new Vector2(1, 0);
+    protected float horizontal, vertical;
+    protected int axis;
+    protected Vector2 direction = new Vector2(1, 0);
     protected float rotDegree;
     public bool canMove;
     protected BoxCollider2D playerCollider;
@@ -53,10 +54,11 @@ public abstract class PlayerController : MonoBehaviour
             //If the player is moving left or right and is not blocked by doing so, let them
             if ((horizontal > 0 && canMoveRight) || (horizontal < 0 && canMoveLeft))
             {
+                axis = 0;
                 direction.x = horizontal;
                 direction.y = 0;
-                if(canRotateSprite)
-                    FlipSprite(0, (int)direction.x);
+                if (canRotateSprite)
+                    OnRotation();
             }
         }
 
@@ -65,10 +67,11 @@ public abstract class PlayerController : MonoBehaviour
             //If the player is moving up or down and is not blocked by doing so, let them
             if ((vertical > 0 && canMoveUp) || (vertical < 0 && canMoveDown))
             {
+                axis = 1;
                 direction.x = 0;
                 direction.y = vertical;
-                if(canRotateSprite)
-                    FlipSprite(1, (int)direction.y);
+                if (canRotateSprite)
+                    OnRotation();
             }
         }
 
@@ -82,22 +85,7 @@ public abstract class PlayerController : MonoBehaviour
         }
     }
 
-    private void FlipSprite(int axis, int direction)
-    {
-        //Rotate back to zero degrees
-        gameObject.transform.Rotate(0.0f, 0.0f, -rotDegree, Space.World);
-        switch (axis)
-        {
-            case 0:
-                rotDegree = 90 - (direction * 90);
-                break;
-            case 1:
-                rotDegree = direction * 90;
-                break;
-        }
-        //Rotate object based on the direction that they are moving
-        gameObject.transform.Rotate(0.0f, 0.0f, rotDegree, Space.World);
-    }//end of FlipSprite
+    protected abstract void OnRotation();
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()

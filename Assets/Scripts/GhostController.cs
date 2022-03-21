@@ -36,4 +36,9 @@ public class GhostController : PlayerController
         if (collision.collider.CompareTag("Pellet"))
             Physics2D.IgnoreCollision(collision.collider, collision.otherCollider);
     }
+
+    protected override void OnRotation()
+    {
+        //TODO: change the eye sprites
+    }
 }

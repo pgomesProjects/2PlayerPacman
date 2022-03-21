@@ -52,7 +52,10 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         foreach (var i in player)
-            i.gameObject.SetActive(false);
+        {
+            if(i is GhostController)
+                i.gameObject.SetActive(false);
+        }
 
         for (int i = 0; i < 8; i++)
         {

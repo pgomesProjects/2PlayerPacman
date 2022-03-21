@@ -48,10 +48,40 @@ public class PacmanController : PlayerController
             //Find the position on the map of the collided pellet and destroy it
             Vector3Int pelletPosition = layoutGrid.WorldToCell(pacManColliderPoint.point);
             pelletMap.SetTile(pelletPosition, null);
-            LevelManager.Level.EndAnimation();
+            LevelManager.Level.RemovePellet();
             //If there are no more pellets, game is over and return to the main menu
-            /*if (LevelManager.Level.GetTotalPellets() == 0)
-                LevelManager.Level.EndAnimation();*/
+            if (LevelManager.Level.GetTotalPellets() == 0)
+                LevelManager.Level.EndAnimation();
         }
     }
+
+    protected override void OnRotation()
+    {
+        switch (axis)
+        {
+            case 0:
+                FlipSprite(axis, (int)direction.x);
+                break;
+            case 1:
+                FlipSprite(axis, (int)direction.y);
+                break;
+        }
+    }
+
+    private void FlipSprite(int axis, int direction)
+    {
+        //Rotate back to zero degrees
+        gameObject.transform.Rotate(0.0f, 0.0f, -rotDegree, Space.World);
+        switch (axis)
+        {
+            case 0:
+                rotDegree = 90 - (direction * 90);
+                break;
+            case 1:
+                rotDegree = direction * 90;
+                break;
+        }
+        //Rotate object based on the direction that they are moving
+        gameObject.transform.Rotate(0.0f, 0.0f, rotDegree, Space.World);
+    }//end of FlipSprite
 }

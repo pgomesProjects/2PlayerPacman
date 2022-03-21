@@ -145,7 +145,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerType: 0
-  speed: 4
+  speed: 6
+  canMove: 0
   levelMask:
     serializedVersion: 2
     m_Bits: 8
