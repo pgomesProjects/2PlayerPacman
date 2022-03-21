@@ -2,9 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using TMPro;
 
 public class PacmanController : PlayerController
+
 {
+    //adding life counter 
+    public int life;
+    public TextMeshProUGUI lifeText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,11 +54,14 @@ public class PacmanController : PlayerController
             //Find the position on the map of the collided pellet and destroy it
             Vector3Int pelletPosition = layoutGrid.WorldToCell(pacManColliderPoint.point);
             pelletMap.SetTile(pelletPosition, null);
+
             LevelManager.Level.RemovePellet();
             //If there are no more pellets, game is over and return to the main menu
             if (LevelManager.Level.GetTotalPellets() == 0)
                 LevelManager.Level.EndAnimation();
+
         }
+
     }
 
     protected override void OnRotation()
@@ -84,4 +93,10 @@ public class PacmanController : PlayerController
         //Rotate object based on the direction that they are moving
         gameObject.transform.Rotate(0.0f, 0.0f, rotDegree, Space.World);
     }//end of FlipSprite
+   
+    private void UpdateLife(int lifetoAdd)
+    {
+        life += lifetoAdd;
+        lifeText.text = "Life" + life;
+    }
 }
