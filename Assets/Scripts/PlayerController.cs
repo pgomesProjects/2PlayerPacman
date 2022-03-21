@@ -11,7 +11,7 @@ public abstract class PlayerController : MonoBehaviour
     private float horizontal, vertical;
     private Vector2 direction = new Vector2(1, 0);
     protected float rotDegree;
-    protected bool canMove;
+    public bool canMove;
     protected BoxCollider2D playerCollider;
     protected bool canMoveUp, canMoveDown, canMoveLeft, canMoveRight;
     protected Rigidbody2D rb2D;

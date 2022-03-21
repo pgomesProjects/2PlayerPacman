@@ -48,6 +48,10 @@ public class PacmanController : PlayerController
             //Find the position on the map of the collided pellet and destroy it
             Vector3Int pelletPosition = layoutGrid.WorldToCell(pacManColliderPoint.point);
             pelletMap.SetTile(pelletPosition, null);
+            LevelManager.Level.EndAnimation();
+            //If there are no more pellets, game is over and return to the main menu
+            /*if (LevelManager.Level.GetTotalPellets() == 0)
+                LevelManager.Level.EndAnimation();*/
         }
     }
 }
