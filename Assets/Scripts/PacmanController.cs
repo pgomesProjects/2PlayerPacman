@@ -14,6 +14,7 @@ public class PacmanController : PlayerController
     // Start is called before the first frame update
     void Start()
     {
+        playerType = GameManager.instance.currentPlayerSetup[0];
         playerCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
         rotDegree = transform.rotation.z;

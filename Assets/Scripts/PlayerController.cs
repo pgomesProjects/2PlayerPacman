@@ -5,8 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D), typeof(Rigidbody2D))]
 public abstract class PlayerController : MonoBehaviour
 {
-    public enum Player {PLAYERONE, PLAYERTWO};
-    public Player playerType;
+    public GameManager.Player playerType;
     public float speed = 3f;
     protected float horizontal, vertical;
     protected int axis;
@@ -24,11 +23,11 @@ public abstract class PlayerController : MonoBehaviour
         //Get input based on which player is who
         switch (playerType)
         {
-            case Player.PLAYERONE:
+            case GameManager.Player.PLAYERONE:
                 horizontal = Input.GetAxisRaw("PlayerOneHorizontal");
                 vertical = Input.GetAxisRaw("PlayerOneVertical");
                 break;
-            case Player.PLAYERTWO:
+            case GameManager.Player.PLAYERTWO:
                 horizontal = Input.GetAxisRaw("PlayerTwoHorizontal");
                 vertical = Input.GetAxisRaw("PlayerTwoVertical");
                 break;

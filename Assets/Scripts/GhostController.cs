@@ -17,6 +17,7 @@ public class GhostController : PlayerController
     // Start is called before the first frame update
     void Start()
     {
+        playerType = GameManager.instance.currentPlayerSetup[1];
         playerCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
         
