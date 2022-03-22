@@ -1,0 +1,5 @@
+2-Player Pacman
+Play the classic game of Pacman, but instead of a bunch of AI chasing you around, you have a friend on your tail trying to keep you from finishing your game! 
+[Credits]
+Programming, 2D Art - Peter Gomes
+Programming - Dominic Malo
