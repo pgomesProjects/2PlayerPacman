@@ -35,8 +35,8 @@ public class GhostController : PlayerController
         
         gameOverText.gameObject.SetActive(false);
       //settng warp/teleport cords
-        warp = new Vector3(13, 7, 0);
-        teleport = new Vector3(-13, 7, 0);
+        warp = new Vector3(15, 7.5f, 0);
+        teleport = new Vector3(-15, 7.5f, 0);
         //setting other Pacmen false until called upon after death of orginal
         Pacman1.gameObject.SetActive(false);
         Pacman2.gameObject.SetActive(false);
@@ -98,6 +98,7 @@ public class GhostController : PlayerController
 
             gameOverText.gameObject.SetActive(true);
             canMove = false;
+            GameManager.instance.EndGame("Titlescreen", 3);
         }
         
     }

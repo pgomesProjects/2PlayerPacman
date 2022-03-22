@@ -24,8 +24,8 @@ public class PacmanController : PlayerController
         canRotateSprite = true;
         canMove = true;
        //Adding Warp Points
-        warp = new Vector3(13, 7, 0);
-        teleport = new Vector3(-13, 7, 0);
+        warp = new Vector3(15, 7.5f, 0);
+        teleport = new Vector3(-15, 7.5f, 0);
 
     }
 
