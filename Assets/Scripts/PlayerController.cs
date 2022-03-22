@@ -102,4 +102,6 @@ public abstract class PlayerController : MonoBehaviour
         Gizmos.DrawWireCube(boxPosRight, scale);
     }
 #endif
+
+  
 }
