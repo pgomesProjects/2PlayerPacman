@@ -11,12 +11,7 @@ public class GhostController : PlayerController
     public float secondsUntilActive = 3;
     public TextMeshProUGUI gameOverText;
 
-    public Image[] allliveSprites;
-    public Image lifeTwo;
-    public Image lifeThree;
-    public GameObject Pacman;
-    public GameObject Pacman1;
-    public GameObject Pacman2;
+    public Image[] allLiveSprites;
     private Vector3 warp;
     private Vector3 teleport;
 
@@ -34,12 +29,9 @@ public class GhostController : PlayerController
        
         
         gameOverText.gameObject.SetActive(false);
-      //settng warp/teleport cords
+        //settng warp/teleport cords
         warp = new Vector3(15, 7.5f, 0);
         teleport = new Vector3(-15, 7.5f, 0);
-        //setting other Pacmen false until called upon after death of orginal
-        Pacman1.gameObject.SetActive(false);
-        Pacman2.gameObject.SetActive(false);
 
     }
 
@@ -72,33 +64,27 @@ public class GhostController : PlayerController
         if (collision.collider.CompareTag("Pellet"))
             Physics2D.IgnoreCollision(collision.collider, collision.otherCollider);
 
-        //Destroying Pacman Starting Pacman1
+        //Destroying Pacman
         if (collision.gameObject.tag == "Pacman")
         {
-            Destroy(collision.gameObject);
-            allliveSprites[0].gameObject.SetActive(false);
-
-            Instantiate(Pacman1, new Vector3(0, -1, 0), Quaternion.identity);
-            Pacman1.gameObject.SetActive(true);
-        }
-       //Destroying Pacman1 Starting Pacman2
-        if (collision.gameObject.tag == "Pacman1")
-        {
-            Destroy(collision.gameObject);
-           lifeTwo.gameObject.SetActive(false);
-                      
-            Instantiate(Pacman2, new Vector3(0, -1, 0), Quaternion.identity);
-            Pacman2.gameObject.SetActive(true);
-        }
-        //Destorying Pacman2 and End Game Text
-        if (collision.gameObject.tag == "Pacman2")
-        {
-            Destroy(collision.gameObject);
-            lifeThree.gameObject.SetActive(false);
-
-            gameOverText.gameObject.SetActive(true);
-            canMove = false;
-            GameManager.instance.EndGame("Titlescreen", 3);
+            PacmanController pacmanController = collision.gameObject.GetComponent<PacmanController>();
+            Debug.Log("Pacman Lives: " + (pacmanController.life - 1));
+            pacmanController.life--;
+            //If the player has no lives, end the game
+            if (pacmanController.life == -1)
+            {
+                gameOverText.gameObject.SetActive(true);
+                canMove = false;
+                pacmanController.gameObject.SetActive(false);
+                GameManager.instance.EndGame("Titlescreen", 3);
+            }
+            //Else, take a life from the player and move both players to their spawn points
+            else
+            {
+                allLiveSprites[pacmanController.life].gameObject.SetActive(false);
+                pacmanController.transform.position = pacmanController.spawnPoint.transform.position;
+                transform.position = spawnPoint.transform.position;
+            }
         }
         
     }

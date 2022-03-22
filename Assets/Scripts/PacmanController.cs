@@ -10,9 +10,6 @@ public class PacmanController : PlayerController
     //adding life counter 
     public int life;
     public TextMeshProUGUI lifeText;
-    public GameObject Pacman;
-    private Vector3 warp;
-    private Vector3 teleport;
 
     // Start is called before the first frame update
     void Start()
@@ -23,9 +20,6 @@ public class PacmanController : PlayerController
         rotDegree = transform.rotation.z;
         canRotateSprite = true;
         canMove = true;
-       //Adding Warp Points
-        warp = new Vector3(15, 7.5f, 0);
-        teleport = new Vector3(-15, 7.5f, 0);
 
     }
 
@@ -33,16 +27,6 @@ public class PacmanController : PlayerController
     void Update()
     {
         GetPlayerInput();
-        //Warping if too far left or right
-        if(transform.position.x > warp.x)
-        {
-            transform.position = teleport;
-        }
-
-        if(transform.position.x < teleport.x)
-        {
-            transform.position = warp;
-        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

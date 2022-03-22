@@ -17,6 +17,7 @@ public abstract class PlayerController : MonoBehaviour
     protected Rigidbody2D rb2D;
     [SerializeField] private LayerMask levelMask;
     protected bool canRotateSprite;
+    public GameObject spawnPoint;
 
     protected void GetPlayerInput()
     {
@@ -81,6 +82,35 @@ public abstract class PlayerController : MonoBehaviour
             position.x = position.x + direction.x * speed * Time.deltaTime;
             position.y = position.y + direction.y * speed * Time.deltaTime;
             transform.position = position;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Warp"))
+        {
+            WarpController warpController = collision.gameObject.GetComponent<WarpController>();
+            if (!warpController.hasWarped)
+            {
+                transform.position = warpController.otherWarp.transform.position;
+                warpController.otherWarp.GetComponent<WarpController>().hasWarped = true;
+            }
+            else
+            {
+                warpController.GetComponent<WarpController>().hasWarped = false;
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Warp"))
+        {
+            WarpController warpController = collision.gameObject.GetComponent<WarpController>();
+            if (warpController.hasWarped)
+            {
+                warpController.otherWarp.GetComponent<WarpController>().hasWarped = false;
+            }
         }
     }
 
