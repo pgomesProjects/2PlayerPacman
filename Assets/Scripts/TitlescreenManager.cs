@@ -51,16 +51,6 @@ public class TitlescreenManager : MonoBehaviour
             currentState = 1;
             UpdateMenu();
         }
-
-        //Quit function
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Debug.Log("Quitting Game...");
-            Application.Quit();
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#endif
-        }
     }//end of TitleScreen
 
     private void PlayerSelect()

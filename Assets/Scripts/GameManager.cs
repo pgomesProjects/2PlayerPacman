@@ -36,4 +36,17 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(goToLevel);
     }
 
+    private void Update()
+    {
+        //Quit function
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("Quitting Game...");
+            Application.Quit();
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        }
+    }
+
 }
