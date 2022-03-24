@@ -26,6 +26,7 @@ public class LevelManager : MonoBehaviour
         totalPellets = GetTotalOfPellets();
         levelColor = levelMap.color;
         currentColor = levelColor;
+        FindObjectOfType<AudioManager>().Play("InGameMusic", GameManager.gameVolume);
     }
     private int GetTotalOfPellets()
     {
@@ -36,7 +37,7 @@ public class LevelManager : MonoBehaviour
             Tile tile = pelletMap.GetTile<Tile>(pos);
             if (tile != null) { amount += 1; }
         }
-        return amount;
+        return amount + 4;
     }
 
     public void EndAnimation()
@@ -46,7 +47,9 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator EndingAnimation()
     {
-        foreach(var i in player)
+        FindObjectOfType<AudioManager>().Stop("InGameMusic");
+
+        foreach (var i in player)
             i.canMove = false;
 
         yield return new WaitForSeconds(2);

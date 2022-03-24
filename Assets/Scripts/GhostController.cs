@@ -14,6 +14,13 @@ public class GhostController : PlayerController
     public Image[] allLiveSprites;
     private Vector3 warp;
     private Vector3 teleport;
+    public float powerPelletTimer = 10;
+    private float currentPelletTimer;
+
+    private Color ghostColor, currentColor;
+    private Color vulnerableColor = new Color(0.13f, 0.13f, 1);
+
+    private bool isVulnerable;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +29,10 @@ public class GhostController : PlayerController
         playerCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
 
+        isVulnerable = false;
+        currentPelletTimer = powerPelletTimer;
+        ghostColor = GetComponent<SpriteRenderer>().color;
+        currentColor = ghostColor;
         canMove = false;
         rotDegree = transform.rotation.z;
         canRotateSprite = false;
@@ -58,6 +69,36 @@ public class GhostController : PlayerController
         }
     }
 
+    public void MakeVulnerable()
+    {
+        if (isVulnerable)
+        {
+            currentPelletTimer = powerPelletTimer;
+        }
+        else
+        {
+            isVulnerable = true;
+            currentColor = vulnerableColor;
+            GetComponent<SpriteRenderer>().color = currentColor;
+            StartCoroutine(VulnerableTimer());
+        }
+    }
+
+    IEnumerator VulnerableTimer()
+    {
+        currentPelletTimer = powerPelletTimer;
+
+        while(currentPelletTimer > 0)
+        {
+            currentPelletTimer -= Time.deltaTime;
+            yield return null;
+        }
+
+        isVulnerable = false;
+        currentColor = ghostColor;
+        GetComponent<SpriteRenderer>().color = currentColor;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //If the ghost collides with a pellet, ignore the collision
@@ -65,7 +106,7 @@ public class GhostController : PlayerController
             Physics2D.IgnoreCollision(collision.collider, collision.otherCollider);
 
         //Destroying Pacman
-        if (collision.gameObject.tag == "Pacman")
+        if (collision.gameObject.tag == "Pacman" && !isVulnerable)
         {
             PacmanController pacmanController = collision.gameObject.GetComponent<PacmanController>();
             Debug.Log("Pacman Lives: " + (pacmanController.life - 1));
@@ -73,6 +114,7 @@ public class GhostController : PlayerController
             //If the player has no lives, end the game
             if (pacmanController.life == -1)
             {
+                FindObjectOfType<AudioManager>().Stop("InGameMusic");
                 gameOverText.gameObject.SetActive(true);
                 canMove = false;
                 pacmanController.gameObject.SetActive(false);
@@ -85,6 +127,13 @@ public class GhostController : PlayerController
                 pacmanController.transform.position = pacmanController.spawnPoint.transform.position;
                 transform.position = spawnPoint.transform.position;
             }
+        }
+        else if(collision.gameObject.tag == "Pacman" && isVulnerable)
+        {
+            StopCoroutine(VulnerableTimer());
+            currentColor = ghostColor;
+            GetComponent<SpriteRenderer>().color = currentColor;
+            transform.position = spawnPoint.transform.position;
         }
         
     }

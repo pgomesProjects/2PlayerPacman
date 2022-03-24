@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public enum Player { PLAYERONE, PLAYERTWO };
     public Player[] currentPlayerSetup = {Player.PLAYERONE, Player.PLAYERTWO};
+    public static float gameVolume = 0.5f;
 
     void Awake()
     {

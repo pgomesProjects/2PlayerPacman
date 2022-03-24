@@ -55,6 +55,15 @@ public class PacmanController : PlayerController
             }
             //Find the position on the map of the collided pellet and destroy it
             Vector3Int pelletPosition = layoutGrid.WorldToCell(pacManColliderPoint.point);
+
+            //If Pacman collects a power pellet, make the ghost vulnerable
+            if (pelletMap.GetTile(pelletPosition).name == "power_pellet")
+            {
+                Debug.Log("Power Pellet Collected!");
+                GhostController ghostPlayer = FindObjectOfType<GhostController>();
+                ghostPlayer.MakeVulnerable();
+            }
+
             pelletMap.SetTile(pelletPosition, null);
             LevelManager.Level.RemovePellet();
             //If there are no more pellets, game is over and return to the main menu

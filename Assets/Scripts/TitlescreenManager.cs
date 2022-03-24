@@ -21,6 +21,11 @@ public class TitlescreenManager : MonoBehaviour
     private bool isGameStarting = false;
     public string sceneToLoad;
 
+    private void Start()
+    {
+        FindObjectOfType<AudioManager>().Play("TitleMusic", GameManager.gameVolume);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -203,6 +208,7 @@ public class TitlescreenManager : MonoBehaviour
 
     private void UpdateMenuOptions(int playerIndex)
     {
+        Debug.Log(playerIndex);
         switch (playerIndex)
         {
             case 0:
@@ -211,7 +217,7 @@ public class TitlescreenManager : MonoBehaviour
                 break;
             case 1:
                 if (playerSprite[0].texture == spriteObjects[chosenPlayers[playerIndex]].texture)
-                    SwapSprite(1, 1);
+                    SwapSprite(1, 0);
                 break;
         }
     }//end of UpdateMenuOptions
@@ -225,6 +231,8 @@ public class TitlescreenManager : MonoBehaviour
     IEnumerator WaitForSceneLoad()
     {
         yield return new WaitForSeconds(0.5f);
+
+        FindObjectOfType<AudioManager>().Stop("TitleMusic");
 
         //Load scene
         SceneManager.LoadScene(sceneToLoad);
