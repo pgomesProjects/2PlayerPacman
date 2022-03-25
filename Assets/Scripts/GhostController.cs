@@ -15,12 +15,15 @@ public class GhostController : PlayerController
     private Vector3 warp;
     private Vector3 teleport;
     public float powerPelletTimer = 10;
+    public Sprite[] eyeSprites;
     private float currentPelletTimer;
 
     private Color ghostColor, currentColor;
     private Color vulnerableColor = new Color(0.13f, 0.13f, 1);
 
     private bool isVulnerable;
+    private bool isRegularVulnerableSprite;
+    private SpriteRenderer currentEyes;
 
     // Start is called before the first frame update
     void Start()
@@ -28,29 +31,25 @@ public class GhostController : PlayerController
         playerType = GameManager.instance.currentPlayerSetup[1];
         playerCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
+        currentEyes = transform.Find("Eyes").GetComponent<SpriteRenderer>();
 
         isVulnerable = false;
         currentPelletTimer = powerPelletTimer;
         ghostColor = GetComponent<SpriteRenderer>().color;
+
+        secondsUntilStart = LevelManager.Level.secondsUntilStart + secondsUntilActive;
         currentColor = ghostColor;
+        
         canMove = false;
         rotDegree = transform.rotation.z;
-        canRotateSprite = false;
+        canRotateSprite = true;
         StartCoroutine(MovementCooldown());
-       
-        
+
         gameOverText.gameObject.SetActive(false);
         //settng warp/teleport cords
         warp = new Vector3(15, 7.5f, 0);
         teleport = new Vector3(-15, 7.5f, 0);
 
-    }
-
-    IEnumerator MovementCooldown()
-    {
-        //Wait a set amount of seconds before the start of the game before the ghost can move
-        yield return new WaitForSeconds(secondsUntilActive);
-        canMove = true;
     }
 
     // Update is called once per frame
@@ -79,6 +78,7 @@ public class GhostController : PlayerController
         {
             isVulnerable = true;
             currentColor = vulnerableColor;
+            currentEyes.sprite = eyeSprites[4];
             GetComponent<SpriteRenderer>().color = currentColor;
             StartCoroutine(VulnerableTimer());
         }
@@ -87,16 +87,43 @@ public class GhostController : PlayerController
     IEnumerator VulnerableTimer()
     {
         currentPelletTimer = powerPelletTimer;
+        float blinkingTimer = 0.5f;
+        float currentBlinkingTimer = 0;
+        isRegularVulnerableSprite = true;
 
-        while(currentPelletTimer > 0)
+        while (currentPelletTimer > 0)
         {
             currentPelletTimer -= Time.deltaTime;
+            if(currentPelletTimer < 3)
+            {
+                currentBlinkingTimer += Time.deltaTime;
+                if(currentBlinkingTimer > blinkingTimer)
+                {
+                    //Toggle between blue and white sprite
+                    if (isRegularVulnerableSprite)
+                    {
+                        isRegularVulnerableSprite = false;
+                        currentColor = new Color(1, 1, 1);
+                        currentEyes.color = new Color(1, 0, 0);
+                    }
+                    else
+                    {
+                        isRegularVulnerableSprite = true;
+                        currentColor = vulnerableColor;
+                        currentEyes.color = new Color(1, 1, 1);
+                    }
+                    GetComponent<SpriteRenderer>().color = currentColor;
+                    currentBlinkingTimer = 0;
+                }
+            }
             yield return null;
         }
 
         isVulnerable = false;
         currentColor = ghostColor;
+        currentEyes.color = new Color(1, 1, 1);
         GetComponent<SpriteRenderer>().color = currentColor;
+        OnRotation();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -130,9 +157,13 @@ public class GhostController : PlayerController
         }
         else if(collision.gameObject.tag == "Pacman" && isVulnerable)
         {
+            currentPelletTimer = 0;
             StopCoroutine(VulnerableTimer());
             currentColor = ghostColor;
+            currentEyes.color = new Color(1, 1, 1);
             GetComponent<SpriteRenderer>().color = currentColor;
+            isVulnerable = false;
+            OnRotation();
             transform.position = spawnPoint.transform.position;
         }
         
@@ -140,7 +171,36 @@ public class GhostController : PlayerController
 
     protected override void OnRotation()
     {
-        //TODO: change the eye sprites
+        if (!isVulnerable)
+        {
+            switch (axis)
+            {
+                case 0:
+                    //Right
+                    if (direction.x > 0)
+                    {
+                        currentEyes.sprite = eyeSprites[0];
+                    }
+                    //Left
+                    else
+                    {
+                        currentEyes.sprite = eyeSprites[1];
+                    }
+                    break;
+                case 1:
+                    //Down
+                    if (direction.y > 0)
+                    {
+                        currentEyes.sprite = eyeSprites[2];
+                    }
+                    //Up
+                    else
+                    {
+                        currentEyes.sprite = eyeSprites[3];
+                    }
+                    break;
+            }
+        }
     }
 
 }

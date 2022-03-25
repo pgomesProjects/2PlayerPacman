@@ -17,9 +17,10 @@ public class PacmanController : PlayerController
         playerCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
         rotDegree = transform.rotation.z;
-        canRotateSprite = true;
-        canMove = true;
-
+        canRotateSprite = false;
+        secondsUntilStart = LevelManager.Level.secondsUntilStart;
+        canMove = false;
+        StartCoroutine(MovementCooldown());
     }
 
     // Update is called once per frame

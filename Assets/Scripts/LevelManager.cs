@@ -8,6 +8,9 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Level;
 
+    public float secondsUntilStart = 5;
+
+    [SerializeField]private GameObject readyText;
     private int totalPellets;
     [SerializeField] private Tilemap levelMap;
     private Color levelColor;
@@ -26,7 +29,7 @@ public class LevelManager : MonoBehaviour
         totalPellets = GetTotalOfPellets();
         levelColor = levelMap.color;
         currentColor = levelColor;
-        FindObjectOfType<AudioManager>().Play("InGameMusic", GameManager.gameVolume);
+        StartCoroutine(StartingAnimation());
     }
     private int GetTotalOfPellets()
     {
@@ -43,6 +46,15 @@ public class LevelManager : MonoBehaviour
     public void EndAnimation()
     {
         StartCoroutine(EndingAnimation());
+    }
+
+    IEnumerator StartingAnimation()
+    {
+        FindObjectOfType<AudioManager>().Play("StartingJingle", GameManager.gameVolume);
+
+        yield return new WaitForSeconds(secondsUntilStart);
+        readyText.SetActive(false);
+        FindObjectOfType<AudioManager>().Play("InGameMusic", GameManager.gameVolume);
     }
 
     IEnumerator EndingAnimation()

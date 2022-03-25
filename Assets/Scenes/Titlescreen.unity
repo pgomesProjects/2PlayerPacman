@@ -247,7 +247,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 85d115d4490b82a4892a44ea7cc427c3, type: 3}
+  m_Texture: {fileID: 2800000, guid: d9de2935f0ed1b04091353892a1c3743, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -589,7 +589,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 85d115d4490b82a4892a44ea7cc427c3, type: 3}
+  m_Texture: {fileID: 2800000, guid: d9de2935f0ed1b04091353892a1c3743, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -974,6 +974,26 @@ MonoBehaviour:
     pitch: 1
     loop: 1
     source: {fileID: 0}
+  - name: StartingJingle
+    clip: {fileID: 8300000, guid: 2821c1aa373a2924fb91f94b7a92c6af, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: SelectSFX
+    clip: {fileID: 8300000, guid: e0b868591a620664bb73b4430f0b29c4, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: ClickSFX
+    clip: {fileID: 8300000, guid: eeebb2355988f3441877dfd6d92e3987, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: CancelSFX
+    clip: {fileID: 8300000, guid: dfde5f5b45dcded4d828b9701afa2775, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!1 &1006491412
 GameObject:
   m_ObjectHideFlags: 0
@@ -1229,8 +1249,8 @@ MonoBehaviour:
   - {fileID: 1264805464}
   - {fileID: 1006491414}
   spriteObjects:
-  - {fileID: 21300000, guid: 85d115d4490b82a4892a44ea7cc427c3, type: 3}
-  - {fileID: 21300000, guid: 4b9a4eb841daf8f46b45167c756ca311, type: 3}
+  - {fileID: 21300000, guid: d9de2935f0ed1b04091353892a1c3743, type: 3}
+  - {fileID: 21300000, guid: e57fad350f48994409a4b1f650f563e0, type: 3}
   playerSprite:
   - {fileID: 355198836}
   - {fileID: 456120569}

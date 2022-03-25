@@ -51,6 +51,7 @@ public class TitlescreenManager : MonoBehaviour
         //Start game function
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            FindObjectOfType<AudioManager>().Play("ClickSFX", 1);
             menuStates[0] = false;
             menuStates[1] = true;
             currentState = 1;
@@ -72,22 +73,28 @@ public class TitlescreenManager : MonoBehaviour
             //Player One Left
             if (Input.GetKeyDown(KeyCode.A))
             {
+                FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
                 SwapSprite(-1, 0);
             }
             //Player One Right
             else if (Input.GetKeyDown(KeyCode.D))
             {
+                FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
                 SwapSprite(1, 0);
             }
 
             //If the player presses 1, they are ready
             if(Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
             {
+                FindObjectOfType<AudioManager>().Play("ClickSFX", 1);
                 ReadyPlayer(0);
             }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            FindObjectOfType<AudioManager>().Play("CancelSFX", 1);
             UnreadyPlayer(0);
+        }
 
         //If player two is not ready, check for input here
         if (!playerReady[1])
@@ -95,22 +102,28 @@ public class TitlescreenManager : MonoBehaviour
             //Player Two Left
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
+                FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
                 SwapSprite(-1, 1);
             }
             //Player Two Right
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
+                FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
                 SwapSprite(1, 1);
             }
 
             //If the player presses 2, they are ready
             if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
             {
+                FindObjectOfType<AudioManager>().Play("ClickSFX", 1);
                 ReadyPlayer(1);
             }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            FindObjectOfType<AudioManager>().Play("CancelSFX", 1);
             UnreadyPlayer(1);
+        }
 
     }//end of SelectPlayerType
 
@@ -208,7 +221,6 @@ public class TitlescreenManager : MonoBehaviour
 
     private void UpdateMenuOptions(int playerIndex)
     {
-        Debug.Log(playerIndex);
         switch (playerIndex)
         {
             case 0:
