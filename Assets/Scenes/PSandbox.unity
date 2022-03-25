@@ -1594,6 +1594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7688ec0ed19954343ab519578b8346f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  secondsUntilStart: 5
   readyText: {fileID: 1230143688}
   levelMap: {fileID: 2092235364}
   pelletMap: {fileID: 1642517582}
@@ -9757,6 +9758,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pacman
       objectReference: {fileID: 0}
+    - target: {fileID: 485668830986507175, guid: f2ca21be3ff048b4692834a5b1aaf955, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3535cd495fb2c2b4d87d028a0127a658, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2ca21be3ff048b4692834a5b1aaf955, type: 3}
 --- !u!1 &485668832719926617 stripped
