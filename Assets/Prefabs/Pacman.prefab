@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: -371154911
   m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 85d115d4490b82a4892a44ea7cc427c3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3535cd495fb2c2b4d87d028a0127a658, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -145,8 +145,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerType: 0
-  speed: 6
+  speed: 8
   canMove: 0
   levelMask:
     serializedVersion: 2
     m_Bits: 8
+  spawnPoint: {fileID: 0}
+  life: 3
+  lifeText: {fileID: 0}

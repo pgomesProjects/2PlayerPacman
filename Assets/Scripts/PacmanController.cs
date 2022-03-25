@@ -9,7 +9,6 @@ public class PacmanController : PlayerController
 {
     //adding life counter 
     public int life;
-    public TextMeshProUGUI lifeText;
 
     // Start is called before the first frame update
     void Start()
@@ -103,11 +102,5 @@ public class PacmanController : PlayerController
         //Rotate object based on the direction that they are moving
         gameObject.transform.Rotate(0.0f, 0.0f, rotDegree, Space.World);
     }//end of FlipSprite
-   
-    private void UpdateLife(int lifetoAdd)
-    {
-        life += lifetoAdd;
-        lifeText.text = "Life" + life;
-    }
 
 }
