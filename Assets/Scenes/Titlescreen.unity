@@ -951,6 +951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPlayerSetup: 0000000001000000
+  isGameAnimationActive: 0
 --- !u!114 &842565890
 MonoBehaviour:
   m_ObjectHideFlags: 0

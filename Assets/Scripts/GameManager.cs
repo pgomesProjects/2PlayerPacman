@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public enum Player { PLAYERONE, PLAYERTWO };
     public Player[] currentPlayerSetup = {Player.PLAYERONE, Player.PLAYERTWO};
     public static float gameVolume = 0.25f;
+    public bool isGameAnimationActive = false;
 
     void Awake()
     {
@@ -34,28 +35,8 @@ public class GameManager : MonoBehaviour
     public IEnumerator WaitToEnd(string goToLevel, float seconds)
     {
         yield return new WaitForSeconds(seconds);
+        isGameAnimationActive = false;
         SceneManager.LoadScene(goToLevel);
-    }
-
-    private void Update()
-    {
-        //Quit function
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            StartCoroutine(QuitGameDelay());
-        }
-    }
-
-    IEnumerator QuitGameDelay()
-    {
-        Debug.Log("Quitting Game...");
-        FindObjectOfType<AudioManager>().Play("CancelSFX", 1);
-        yield return new WaitForSeconds(0.25f);
-        FindObjectOfType<AudioManager>().Play("CancelSFX", 1);
-        Application.Quit();
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
     }
 
 }

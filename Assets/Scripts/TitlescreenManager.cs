@@ -38,6 +38,12 @@ public class TitlescreenManager : MonoBehaviour
                 PlayerSelect();
                 break;
         }
+
+        //Quit function
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            StartCoroutine(QuitGameDelay());
+        }
     }
 
     private void UpdateMenu()
@@ -249,4 +255,16 @@ public class TitlescreenManager : MonoBehaviour
         //Load scene
         SceneManager.LoadScene(sceneToLoad);
     }//end of WaitForSceneLoad
+
+    IEnumerator QuitGameDelay()
+    {
+        Debug.Log("Quitting Game...");
+        FindObjectOfType<AudioManager>().Play("CancelSFX", 1);
+        yield return new WaitForSeconds(0.25f);
+        FindObjectOfType<AudioManager>().Play("CancelSFX", 1);
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
 }

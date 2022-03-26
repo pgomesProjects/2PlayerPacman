@@ -4,16 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-
-
 public class GhostController : PlayerController
 {
     public float secondsUntilActive = 3;
     public TextMeshProUGUI gameOverText;
 
     public Image[] allLiveSprites;
-    private Vector3 warp;
-    private Vector3 teleport;
     public float powerPelletTimer = 10;
     public Sprite[] eyeSprites;
     private float currentPelletTimer;
@@ -45,27 +41,12 @@ public class GhostController : PlayerController
         canRotateSprite = true;
         StartCoroutine(MovementCooldown());
 
-        gameOverText.gameObject.SetActive(false);
-        //settng warp/teleport cords
-        warp = new Vector3(15, 7.5f, 0);
-        teleport = new Vector3(-15, 7.5f, 0);
-
     }
 
     // Update is called once per frame
     void Update()
     {
         GetPlayerInput();
-        //Teleporting to other warp if you go too far left or right 
-        if (transform.position.x > warp.x)
-        {
-            transform.position = teleport;
-        }
-
-        if (transform.position.x < teleport.x)
-        {
-            transform.position = warp;
-        }
     }
 
     public void MakeVulnerable()
@@ -141,10 +122,14 @@ public class GhostController : PlayerController
             //If the player has no lives, end the game
             if (pacmanController.life == -1)
             {
+                canRotateSprite = false;
                 FindObjectOfType<AudioManager>().Stop("InGameMusic");
+                GameManager.instance.isGameAnimationActive = true;
                 gameOverText.gameObject.SetActive(true);
                 canMove = false;
                 pacmanController.gameObject.SetActive(false);
+                foreach (var i in LevelManager.Level.pausePrompts)
+                    i.SetActive(false);
                 GameManager.instance.EndGame("Titlescreen", 3);
             }
             //Else, take a life from the player and move both players to their spawn points
