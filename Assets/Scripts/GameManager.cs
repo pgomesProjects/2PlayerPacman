@@ -11,6 +11,12 @@ public class GameManager : MonoBehaviour
     public static float gameVolume = 0.25f;
     public bool isGameAnimationActive = false;
 
+    //Data the saves the sprite of Pacman
+    public Sprite pacmanSprite;
+
+    //Data that saves the color of Ghost
+    public Color ghostColor;
+
     void Awake()
     {
         if (instance == null)

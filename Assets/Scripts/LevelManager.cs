@@ -30,6 +30,9 @@ public class LevelManager : MonoBehaviour
         totalPellets = GetTotalOfPellets();
         levelColor = levelMap.color;
         currentColor = levelColor;
+
+        //TODO: Set the Pacman and Ghost Data before the game starts
+
         StartCoroutine(StartingAnimation());
     }
     private int GetTotalOfPellets()

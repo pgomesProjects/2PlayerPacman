@@ -8,18 +8,33 @@ using UnityEngine.UI;
 public class TitlescreenManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] menuObjects;
+    [Header("Character Select Screen Variables")]
     [SerializeField] private TextMeshProUGUI[] textObjects;
     [SerializeField] private Sprite[] spriteObjects;
     [SerializeField] private RawImage[] playerSprite;
     [SerializeField] private GameObject[] arrowObjects;
     [SerializeField] private GameObject[] readyObjects;
+
+    [Header("Character Customization Screen Variables")]
+    [SerializeField] private TextMeshProUGUI[] customizerTextObjects;
+    [SerializeField]private Sprite[] pacmanSprites;
+    [SerializeField]private string[] pacmanNames;
+    [SerializeField]private Color[] ghostColors;
+    [SerializeField]private string[] ghostColorNames;
+    [SerializeField] private RawImage[] playerCustomizationSprites;
+    [SerializeField] private GameObject[] customizationArrowObjects;
+    [SerializeField] private GameObject[] customizeReadyObjects;
+    [Space(20)]
+
+    public string sceneToLoad;
+
     private bool[] playerReady = { false, false };
     private int[] playerSpriteIndex = { 0, 0 };
     private int[] chosenPlayers = { -1, -1 };
-    private bool[] menuStates = { true, false };
+    private bool[] menuStates = { true, false, false };
     private int currentState = 0;
+    private int[] playerCustomizerIndex = { 0, 0 };
     private bool isGameStarting = false;
-    public string sceneToLoad;
 
     private void Start()
     {
@@ -36,6 +51,9 @@ public class TitlescreenManager : MonoBehaviour
                 break;
             case 1:
                 PlayerSelect();
+                break;
+            case 2:
+                CustomizePlayers();
                 break;
         }
 
@@ -65,12 +83,12 @@ public class TitlescreenManager : MonoBehaviour
         }
     }//end of TitleScreen
 
+    #region PlayerSelect
     private void PlayerSelect()
     {
-        if(!isGameStarting)
-            SelectPlayerType();
+        SelectPlayerType();
     }//end of PlayerSelect
-    
+
     private void SelectPlayerType()
     {
         //If player one is not ready, check for input here
@@ -93,7 +111,7 @@ public class TitlescreenManager : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
             {
                 FindObjectOfType<AudioManager>().Play("ClickSFX", 1);
-                ReadyPlayer(0);
+                ReadyPlayerSetup(0);
             }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
@@ -122,7 +140,7 @@ public class TitlescreenManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
             {
                 FindObjectOfType<AudioManager>().Play("ClickSFX", 1);
-                ReadyPlayer(1);
+                ReadyPlayerSetup(1);
             }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
@@ -185,7 +203,7 @@ public class TitlescreenManager : MonoBehaviour
 
     }//end of SwapSprite
 
-    private void ReadyPlayer(int playerIndex)
+    private void ReadyPlayerSetup(int playerIndex)
     {
         playerReady[playerIndex] = true;
         arrowObjects[playerIndex].SetActive(false);
@@ -201,10 +219,19 @@ public class TitlescreenManager : MonoBehaviour
                 break;
         }
         if (IsReadyForPlay())
-            StartGame();
+        {
+            menuStates[1] = false;
+            menuStates[2] = true;
+            currentState = 2;
+            for (int i = 0; i < playerReady.Length; i++)
+            {
+                playerReady[i] = false;
+            }
+            UpdateMenu();
+        }
         else
             UpdateMenuOptions(playerIndex);
-    }//end of ReadyPlayer
+    }//end of ReadyPlayerSetup
 
     private void UnreadyPlayer(int playerIndex)
     {
@@ -239,7 +266,184 @@ public class TitlescreenManager : MonoBehaviour
                 break;
         }
     }//end of UpdateMenuOptions
+    #endregion
+    private void CustomizePlayers()
+    {
+        if (!isGameStarting)
+        {
+            //If player one is not ready, check for input here
+            if (!playerReady[0])
+            {
+                switch (chosenPlayers[0])
+                {
+                    //Player 1 is Pacman
+                    case 0:
+                        //Player One Left
+                        if (Input.GetKeyDown(KeyCode.A))
+                        {
+                            FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                            SwapPacmanSprites(-1);
+                        }
+                        //Player One Right
+                        else if (Input.GetKeyDown(KeyCode.D))
+                        {
+                            FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                            SwapPacmanSprites(1);
+                        }
 
+                        //If the player presses 1, they are ready
+                        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+                        {
+                            FindObjectOfType<AudioManager>().Play("ClickSFX", 1);
+                            ReadyCustomPlayer(0, 0);
+                        }
+                        break;
+                    //Player 1 is Ghost
+                    case 1:
+                        //Player One Left
+                        if (Input.GetKeyDown(KeyCode.A))
+                        {
+                            FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                            SwapGhostSprites(-1);
+                        }
+                        //Player One Right
+                        else if (Input.GetKeyDown(KeyCode.D))
+                        {
+                            FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                            SwapGhostSprites(1);
+                        }
+
+                        //If the player presses 1, they are ready
+                        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+                        {
+                            FindObjectOfType<AudioManager>().Play("ClickSFX", 1);
+                            ReadyCustomPlayer(0, 1);
+                        }
+                        break;
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+            {
+                FindObjectOfType<AudioManager>().Play("CancelSFX", 1);
+                UnreadyPlayer(0);
+            }
+
+            //If player two is not ready, check for input here
+            if (!playerReady[1])
+            {
+                switch (chosenPlayers[1])
+                {
+                    //Player 2 is Pacman
+                    case 0:
+                        //Player Two Left
+                        if (Input.GetKeyDown(KeyCode.LeftArrow))
+                        {
+                            FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                            SwapPacmanSprites(-1);
+                        }
+                        //Player Two Right
+                        else if (Input.GetKeyDown(KeyCode.RightArrow))
+                        {
+                            FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                            SwapPacmanSprites(1);
+                        }
+
+                        //If the player presses 2, they are ready
+                        if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+                        {
+                            FindObjectOfType<AudioManager>().Play("ClickSFX", 1);
+                            ReadyCustomPlayer(1, 0);
+
+                        }
+                        break;
+                    //Player 2 is Ghost
+                    case 1:
+                        //Player Two Left
+                        if (Input.GetKeyDown(KeyCode.LeftArrow))
+                        {
+                            FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                            SwapGhostSprites(-1);
+                        }
+                        //Player Two Right
+                        else if (Input.GetKeyDown(KeyCode.RightArrow))
+                        {
+                            FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                            SwapGhostSprites(1);
+                        }
+
+                        //If the player presses 2, they are ready
+                        if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+                        {
+                            FindObjectOfType<AudioManager>().Play("ClickSFX", 1);
+                            ReadyCustomPlayer(1, 1);
+                        }
+                        break;
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+            {
+                FindObjectOfType<AudioManager>().Play("CancelSFX", 1);
+                UnreadyPlayer(1);
+            }
+        }
+    }//end of CustomizePlayers
+
+    private void SwapPacmanSprites(int direction)
+    {
+        playerCustomizerIndex[0] += direction;
+        
+        if (playerCustomizerIndex[0] < 0)
+            playerCustomizerIndex[0] = pacmanSprites.Length - 1;
+        else if (playerCustomizerIndex[0] > pacmanSprites.Length - 1)
+            playerCustomizerIndex[0] = 0;
+
+        playerCustomizationSprites[0].texture = pacmanSprites[playerCustomizerIndex[0]].texture;
+
+        customizerTextObjects[0].text = pacmanNames[playerCustomizerIndex[0]];
+    }//end of SwapPacmanSprites
+
+    private void SwapGhostSprites(int direction)
+    {
+        playerCustomizerIndex[1] += direction;
+
+        if (playerCustomizerIndex[1] < 0)
+            playerCustomizerIndex[1] = ghostColors.Length - 1;
+        else if (playerCustomizerIndex[1] > ghostColors.Length - 1)
+            playerCustomizerIndex[1] = 0;
+
+        playerCustomizationSprites[1].color = ghostColors[playerCustomizerIndex[1]];
+
+        customizerTextObjects[1].text = ghostColorNames[playerCustomizerIndex[1]];
+    }//end of SwapGhostSprites
+
+
+    private void ReadyCustomPlayer(int playerIndex, int playerObject)
+    {
+        playerReady[playerIndex] = true;
+        customizationArrowObjects[playerIndex].SetActive(false);
+        customizeReadyObjects[playerIndex].SetActive(true);
+
+        switch (playerObject)
+        {
+            //Save Pacman data
+            case 0:
+                Debug.Log("Pacman Data Saved!");
+                //TODO: Save the Pacman Sprite Data
+                break;
+            //Save Ghost data
+            case 1:
+                Debug.Log("Ghost Data Saved!");
+                //TODO: Save the Ghost Color Data
+                break;
+        }
+
+        if (IsReadyForPlay())
+        {
+            StartGame();
+        }
+    }//end of ReadyCustomPlayer
+
+    #region StartGame
     private void StartGame()
     {
         isGameStarting = true;
@@ -267,4 +471,5 @@ public class TitlescreenManager : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
     }
+    #endregion
 }
