@@ -32,6 +32,7 @@ public class LevelManager : MonoBehaviour
         currentColor = levelColor;
 
         //TODO: Set the Pacman and Ghost Data before the game starts
+        FindObjectOfType<GhostController>().GetComponent<SpriteRenderer>().color = GameManager.instance.ghostColor;
 
         StartCoroutine(StartingAnimation());
     }

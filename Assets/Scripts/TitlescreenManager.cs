@@ -433,7 +433,7 @@ public class TitlescreenManager : MonoBehaviour
             //Save Ghost data
             case 1:
                 Debug.Log("Ghost Data Saved!");
-                //TODO: Save the Ghost Color Data
+                GameManager.instance.ghostColor = playerCustomizationSprites[1].color;
                 break;
         }
 

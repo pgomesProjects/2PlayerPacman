@@ -1364,6 +1364,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentPlayerSetup: 0000000001000000
   isGameAnimationActive: 0
+  pacmanSprite: {fileID: 0}
+  ghostColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &842565890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1406,6 +1408,11 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: dfde5f5b45dcded4d828b9701afa2775, type: 3}
     pitch: 1
     loop: 0
+    source: {fileID: 0}
+  - name: Waka
+    clip: {fileID: 8300000, guid: 55e2f322d22d75f499fc5eb3ed2785bb, type: 3}
+    pitch: 1
+    loop: 1
     source: {fileID: 0}
 --- !u!1 &921177522
 GameObject:
@@ -2226,7 +2233,6 @@ GameObject:
   - component: {fileID: 1139814122}
   - component: {fileID: 1139814125}
   - component: {fileID: 1139814124}
-  - component: {fileID: 1139814123}
   m_Layer: 5
   m_Name: EscapePrompt
   m_TagString: Untagged
@@ -2253,25 +2259,6 @@ RectTransform:
   m_AnchoredPosition: {x: -389, y: -176}
   m_SizeDelta: {x: 716.2136, y: 107.993164}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!95 &1139814123
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1139814121}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 31671ec613fd40246b0102002ba42cdf, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &1139814124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2532,7 +2519,7 @@ MonoBehaviour:
   customizeReadyObjects:
   - {fileID: 504510116}
   - {fileID: 1237011549}
-  sceneToLoad: PSandbox
+  sceneToLoad: DomSandbox
 --- !u!1 &1191785740
 GameObject:
   m_ObjectHideFlags: 0
