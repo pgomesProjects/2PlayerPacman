@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public enum Player { PLAYERONE, PLAYERTWO };
     public Player[] currentPlayerSetup = {Player.PLAYERONE, Player.PLAYERTWO};
     public static float gameVolume = 0.25f;
-    public static float sfxVolume = 1f;
+    public static float sfxVolume = 0.5f;
     public bool isGameAnimationActive = false;
 
     //Data that saves the sprite of Pacman

@@ -68,7 +68,7 @@ public class GhostController : PlayerController
         }
         else
         {
-            FindObjectOfType<AudioManager>().Play("PowerPelletSFX", GameManager.sfxVolume * 0.45f);
+            FindObjectOfType<AudioManager>().Play("PowerPelletSFX", GameManager.sfxVolume * 0.55f);
             isVulnerable = true;
             currentColor = vulnerableColor;
             currentEyes.sprite = eyeSprites[4];

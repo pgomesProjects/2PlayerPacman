@@ -11,6 +11,7 @@ public class PauseController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI pauseText;
     private int playerIndex;
     private bool isPaused = false;
+    private bool resumeVulnerable = false, resumeWaka = false;
 
     // Update is called once per frame
     void Update()
@@ -67,7 +68,18 @@ public class PauseController : MonoBehaviour
                 i.SetActive(false);
             isPaused = true;
             FindObjectOfType<AudioManager>().Pause("InGameMusic");
-            FindObjectOfType<AudioManager>().Play("ClickSFX", 1);
+            if (FindObjectOfType<AudioManager>().IsPlaying("PowerPelletSFX"))
+            {
+                resumeVulnerable = true;
+                FindObjectOfType<AudioManager>().Pause("PowerPelletSFX");
+            }
+
+            if (FindObjectOfType<AudioManager>().IsPlaying("Waka"))
+            {
+                resumeWaka = true;
+                FindObjectOfType<AudioManager>().Pause("Waka");
+            }
+            FindObjectOfType<AudioManager>().Play("ClickSFX", GameManager.sfxVolume);
             pauseText.text = playerPauseText[playerIndex];
             pausePanel.SetActive(true);
             Time.timeScale = 0;
@@ -82,7 +94,17 @@ public class PauseController : MonoBehaviour
                 i.SetActive(true);
             isPaused = false;
             FindObjectOfType<AudioManager>().Resume("InGameMusic");
-            FindObjectOfType<AudioManager>().Play("CancelSFX", 1);
+            if (resumeVulnerable)
+            {
+                FindObjectOfType<AudioManager>().Resume("PowerPelletSFX");
+                resumeVulnerable = false;
+            }
+            if (resumeWaka)
+            {
+                FindObjectOfType<AudioManager>().Resume("Waka");
+                resumeWaka = false;
+            }
+            FindObjectOfType<AudioManager>().Play("CancelSFX", GameManager.sfxVolume);
             pausePanel.SetActive(false);
             Time.timeScale = 1;
         }
@@ -91,7 +113,15 @@ public class PauseController : MonoBehaviour
     private void ReturnToMain()
     {
         FindObjectOfType<AudioManager>().Stop("InGameMusic");
-        FindObjectOfType<AudioManager>().Play("CancelSFX", 1);
+        if (resumeVulnerable)
+        {
+            FindObjectOfType<AudioManager>().Stop("PowerPelletSFX");
+        }
+        if (resumeWaka)
+        {
+            FindObjectOfType<AudioManager>().Stop("Waka");
+        }
+        FindObjectOfType<AudioManager>().Play("CancelSFX", GameManager.sfxVolume);
         Time.timeScale = 1;
         SceneManager.LoadScene("Titlescreen");
     }

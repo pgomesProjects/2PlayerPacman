@@ -111,7 +111,7 @@ public class LevelManager : MonoBehaviour
                 i.gameObject.SetActive(false);
         }
 
-        FindObjectOfType<AudioManager>().Play("DeathSFX", GameManager.sfxVolume);
+        FindObjectOfType<AudioManager>().Play("DeathSFX", GameManager.gameVolume);
 
         yield return new WaitForSeconds(1.5f);
 
@@ -191,7 +191,18 @@ public class LevelManager : MonoBehaviour
                 i.gameObject.SetActive(false);
         }
 
-        for (int i = 0; i < 8; i++)
+        float secondsPlayed = 2;
+
+        float randomEasterEggChance = Random.Range(1, 101);
+
+        //3% chance for a joke song at the end
+        if(randomEasterEggChance <= 3)
+        {
+            secondsPlayed = 15.5f;
+            FindObjectOfType<AudioManager>().Play("EasterEgg", GameManager.gameVolume * 0.4f);
+        }
+
+        for (int i = 0; i < secondsPlayed * 4; i++)
         {
             if (currentColor == levelColor)
                 currentColor = new Color(255, 255, 255, 255);

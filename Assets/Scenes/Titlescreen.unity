@@ -1380,12 +1380,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - name: TitleMusic
-    clip: {fileID: 8300000, guid: 4598b8787f9c7fc41bc5abe8ea0f491b, type: 3}
+    clip: {fileID: 8300000, guid: 13a60889439315e4c9ddd2ed16a75663, type: 3}
     pitch: 1
     loop: 1
     source: {fileID: 0}
   - name: InGameMusic
-    clip: {fileID: 8300000, guid: 8d172ba5ca7f3974bb9c9832b7d965f7, type: 3}
+    clip: {fileID: 8300000, guid: a2dc4cdd34ce53740ad9ba5725311ad8, type: 3}
     pitch: 1
     loop: 1
     source: {fileID: 0}
@@ -1426,6 +1426,11 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: DeathSFX
     clip: {fileID: 8300000, guid: a81c90720c5eb954fa6e9337fa16c10b, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: EasterEgg
+    clip: {fileID: 8300000, guid: 82267cf2e621f6b4d912180692f5d7c2, type: 3}
     pitch: 1
     loop: 0
     source: {fileID: 0}
