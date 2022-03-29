@@ -9,7 +9,6 @@ public class PacmanController : PlayerController
 {
     //adding life counter 
     public int life;
-    public TextMeshProUGUI lifeText;
 
     // Start is called before the first frame update
     void Start()
@@ -18,9 +17,10 @@ public class PacmanController : PlayerController
         playerCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
         rotDegree = transform.rotation.z;
-        canRotateSprite = true;
-        canMove = true;
-
+        canRotateSprite = false;
+        secondsUntilStart = LevelManager.Level.secondsUntilStart;
+        canMove = false;
+        StartCoroutine(MovementCooldown());
     }
 
     // Update is called once per frame
@@ -55,6 +55,15 @@ public class PacmanController : PlayerController
             }
             //Find the position on the map of the collided pellet and destroy it
             Vector3Int pelletPosition = layoutGrid.WorldToCell(pacManColliderPoint.point);
+
+            //If Pacman collects a power pellet, make the ghost vulnerable
+            if (pelletMap.GetTile(pelletPosition).name == "power_pellet")
+            {
+                Debug.Log("Power Pellet Collected!");
+                GhostController ghostPlayer = FindObjectOfType<GhostController>();
+                ghostPlayer.MakeVulnerable();
+            }
+
             pelletMap.SetTile(pelletPosition, null);
             LevelManager.Level.RemovePellet();
             //If there are no more pellets, game is over and return to the main menu
@@ -94,11 +103,5 @@ public class PacmanController : PlayerController
         //Rotate object based on the direction that they are moving
         gameObject.transform.Rotate(0.0f, 0.0f, rotDegree, Space.World);
     }//end of FlipSprite
-   
-    private void UpdateLife(int lifetoAdd)
-    {
-        life += lifetoAdd;
-        lifeText.text = "Life" + life;
-    }
 
 }

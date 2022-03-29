@@ -8,6 +8,10 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Level;
 
+    public float secondsUntilStart = 5;
+
+    [SerializeField]private GameObject readyText;
+    public GameObject[] pausePrompts;
     private int totalPellets;
     [SerializeField] private Tilemap levelMap;
     private Color levelColor;
@@ -26,6 +30,11 @@ public class LevelManager : MonoBehaviour
         totalPellets = GetTotalOfPellets();
         levelColor = levelMap.color;
         currentColor = levelColor;
+
+        //TODO: Set the Pacman and Ghost Data before the game starts
+        FindObjectOfType<GhostController>().GetComponent<SpriteRenderer>().color = GameManager.instance.ghostColor;
+
+        StartCoroutine(StartingAnimation());
     }
     private int GetTotalOfPellets()
     {
@@ -36,7 +45,7 @@ public class LevelManager : MonoBehaviour
             Tile tile = pelletMap.GetTile<Tile>(pos);
             if (tile != null) { amount += 1; }
         }
-        return amount;
+        return amount + 4;
     }
 
     public void EndAnimation()
@@ -44,9 +53,27 @@ public class LevelManager : MonoBehaviour
         StartCoroutine(EndingAnimation());
     }
 
+    IEnumerator StartingAnimation()
+    {
+        GameManager.instance.isGameAnimationActive = true;
+        FindObjectOfType<AudioManager>().Play("StartingJingle", GameManager.gameVolume);
+
+        yield return new WaitForSeconds(secondsUntilStart);
+        readyText.SetActive(false);
+        GameManager.instance.isGameAnimationActive = false;
+        foreach (var i in pausePrompts)
+            i.SetActive(true);
+        FindObjectOfType<AudioManager>().Play("InGameMusic", GameManager.gameVolume);
+    }
+
     IEnumerator EndingAnimation()
     {
-        foreach(var i in player)
+        GameManager.instance.isGameAnimationActive = true;
+        foreach (var i in pausePrompts)
+            i.SetActive(false);
+        FindObjectOfType<AudioManager>().Stop("InGameMusic");
+
+        foreach (var i in player)
             i.canMove = false;
 
         yield return new WaitForSeconds(2);
@@ -69,6 +96,7 @@ public class LevelManager : MonoBehaviour
             yield return new WaitForSeconds(0.25f);
         }
 
+        GameManager.instance.isGameAnimationActive = false;
         ReturnToMain();
     }
 

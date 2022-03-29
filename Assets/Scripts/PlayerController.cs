@@ -17,7 +17,16 @@ public abstract class PlayerController : MonoBehaviour
     protected Rigidbody2D rb2D;
     [SerializeField] private LayerMask levelMask;
     protected bool canRotateSprite;
+    protected float secondsUntilStart;
     public GameObject spawnPoint;
+
+    protected IEnumerator MovementCooldown()
+    {
+        //Wait a set amount of seconds before the start of the game before the ghost can move
+        yield return new WaitForSeconds(secondsUntilStart);
+        canRotateSprite = true;
+        canMove = true;
+    }
 
     protected void GetPlayerInput()
     {
