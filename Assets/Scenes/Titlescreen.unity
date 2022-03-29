@@ -795,7 +795,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: d9de2935f0ed1b04091353892a1c3743, type: 3}
+  m_Texture: {fileID: 2800000, guid: e57fad350f48994409a4b1f650f563e0, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -1364,7 +1364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentPlayerSetup: 0000000001000000
   isGameAnimationActive: 0
-  pacmanSprite: {fileID: 0}
+  pacmanSkinNumber: 0
   ghostColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &842565890
 MonoBehaviour:
@@ -1413,6 +1413,21 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 55e2f322d22d75f499fc5eb3ed2785bb, type: 3}
     pitch: 1
     loop: 1
+    source: {fileID: 0}
+  - name: PowerPelletSFX
+    clip: {fileID: 8300000, guid: 7a471b45648a56d4ba984d2146bff332, type: 3}
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: GhostEat
+    clip: {fileID: 8300000, guid: 350e1f18da93fda4581c3ec57c601dc8, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: DeathSFX
+    clip: {fileID: 8300000, guid: a81c90720c5eb954fa6e9337fa16c10b, type: 3}
+    pitch: 1
+    loop: 0
     source: {fileID: 0}
 --- !u!1 &921177522
 GameObject:
@@ -2009,7 +2024,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Pac-Man
+  m_text: Ghost
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2d3e292fb863d3f45b6eb8fa3ca3dd9a, type: 2}
   m_sharedMaterial: {fileID: -5619958888061217254, guid: 2d3e292fb863d3f45b6eb8fa3ca3dd9a, type: 2}
@@ -2519,7 +2534,7 @@ MonoBehaviour:
   customizeReadyObjects:
   - {fileID: 504510116}
   - {fileID: 1237011549}
-  sceneToLoad: DomSandbox
+  sceneToLoad: PSandbox
 --- !u!1 &1191785740
 GameObject:
   m_ObjectHideFlags: 0
