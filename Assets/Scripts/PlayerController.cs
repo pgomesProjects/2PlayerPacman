@@ -9,14 +9,15 @@ public abstract class PlayerController : MonoBehaviour
     public float speed = 3f;
     protected float horizontal, vertical;
     protected int axis;
-    protected Vector2 direction = new Vector2(1, 0);
+    [HideInInspector]
+    public Vector2 direction = new Vector2(1, 0);
     protected float rotDegree;
     public bool canMove;
     protected BoxCollider2D playerCollider;
     protected bool canMoveUp, canMoveDown, canMoveLeft, canMoveRight;
     protected Rigidbody2D rb2D;
     [SerializeField] private LayerMask levelMask;
-    protected bool canRotateSprite;
+    public bool canRotateSprite;
     protected float secondsUntilStart;
     public GameObject spawnPoint;
 
@@ -123,7 +124,7 @@ public abstract class PlayerController : MonoBehaviour
         }
     }
 
-    protected abstract void OnRotation();
+    public abstract void OnRotation();
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()

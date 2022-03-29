@@ -17,6 +17,7 @@ TagManager:
   - Teleport
   - Pacman1
   - Pacman2
+  - Grid
   layers:
   - Default
   - TransparentFX

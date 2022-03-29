@@ -9,10 +9,11 @@ public class GameManager : MonoBehaviour
     public enum Player { PLAYERONE, PLAYERTWO };
     public Player[] currentPlayerSetup = {Player.PLAYERONE, Player.PLAYERTWO};
     public static float gameVolume = 0.25f;
+    public static float sfxVolume = 0.5f;
     public bool isGameAnimationActive = false;
 
     //Data that saves the sprite of Pacman
-    public Sprite pacmanSprite;
+    public int pacmanSkinNumber;
 
     //Data that saves the color of Ghost
     public Color ghostColor;

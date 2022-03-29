@@ -29,11 +29,11 @@ public class TitlescreenManager : MonoBehaviour
     public string sceneToLoad;
 
     private bool[] playerReady = { false, false };
-    private int[] playerSpriteIndex = { 0, 0 };
+    private int[] playerSpriteIndex = { 0, 1 };
     private int[] chosenPlayers = { -1, -1 };
     private bool[] menuStates = { true, false, false };
     private int currentState = 0;
-    private int[] playerCustomizerIndex = { 0, 0 };
+    private int[] playerCustomizerIndex = { 0, 1 };
     private bool isGameStarting = false;
 
     private void Start()
@@ -75,7 +75,7 @@ public class TitlescreenManager : MonoBehaviour
         //Start game function
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            FindObjectOfType<AudioManager>().Play("ClickSFX", 1);
+            FindObjectOfType<AudioManager>().Play("ClickSFX", GameManager.sfxVolume);
             menuStates[0] = false;
             menuStates[1] = true;
             currentState = 1;
@@ -97,26 +97,26 @@ public class TitlescreenManager : MonoBehaviour
             //Player One Left
             if (Input.GetKeyDown(KeyCode.A))
             {
-                FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                FindObjectOfType<AudioManager>().Play("SelectSFX", GameManager.sfxVolume);
                 SwapSprite(-1, 0);
             }
             //Player One Right
             else if (Input.GetKeyDown(KeyCode.D))
             {
-                FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                FindObjectOfType<AudioManager>().Play("SelectSFX", GameManager.sfxVolume);
                 SwapSprite(1, 0);
             }
 
             //If the player presses 1, they are ready
             if(Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
             {
-                FindObjectOfType<AudioManager>().Play("ClickSFX", 1);
+                FindObjectOfType<AudioManager>().Play("ClickSFX", GameManager.sfxVolume);
                 ReadyPlayerSetup(0);
             }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
         {
-            FindObjectOfType<AudioManager>().Play("CancelSFX", 1);
+            FindObjectOfType<AudioManager>().Play("CancelSFX", GameManager.sfxVolume);
             UnreadyPlayer(0);
         }
 
@@ -126,26 +126,26 @@ public class TitlescreenManager : MonoBehaviour
             //Player Two Left
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                FindObjectOfType<AudioManager>().Play("SelectSFX", GameManager.sfxVolume);
                 SwapSprite(-1, 1);
             }
             //Player Two Right
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                FindObjectOfType<AudioManager>().Play("SelectSFX", GameManager.sfxVolume);
                 SwapSprite(1, 1);
             }
 
             //If the player presses 2, they are ready
             if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
             {
-                FindObjectOfType<AudioManager>().Play("ClickSFX", 1);
+                FindObjectOfType<AudioManager>().Play("ClickSFX", GameManager.sfxVolume);
                 ReadyPlayerSetup(1);
             }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
         {
-            FindObjectOfType<AudioManager>().Play("CancelSFX", 1);
+            FindObjectOfType<AudioManager>().Play("CancelSFX", GameManager.sfxVolume);
             UnreadyPlayer(1);
         }
 
@@ -267,6 +267,8 @@ public class TitlescreenManager : MonoBehaviour
         }
     }//end of UpdateMenuOptions
     #endregion
+
+    #region CustomizeCharacter
     private void CustomizePlayers()
     {
         if (!isGameStarting)
@@ -281,20 +283,20 @@ public class TitlescreenManager : MonoBehaviour
                         //Player One Left
                         if (Input.GetKeyDown(KeyCode.A))
                         {
-                            FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                            FindObjectOfType<AudioManager>().Play("SelectSFX", GameManager.sfxVolume);
                             SwapPacmanSprites(-1);
                         }
                         //Player One Right
                         else if (Input.GetKeyDown(KeyCode.D))
                         {
-                            FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                            FindObjectOfType<AudioManager>().Play("SelectSFX", GameManager.sfxVolume);
                             SwapPacmanSprites(1);
                         }
 
                         //If the player presses 1, they are ready
                         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
                         {
-                            FindObjectOfType<AudioManager>().Play("ClickSFX", 1);
+                            FindObjectOfType<AudioManager>().Play("ClickSFX", GameManager.sfxVolume);
                             ReadyCustomPlayer(0, 0);
                         }
                         break;
@@ -303,20 +305,20 @@ public class TitlescreenManager : MonoBehaviour
                         //Player One Left
                         if (Input.GetKeyDown(KeyCode.A))
                         {
-                            FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                            FindObjectOfType<AudioManager>().Play("SelectSFX", GameManager.sfxVolume);
                             SwapGhostSprites(-1);
                         }
                         //Player One Right
                         else if (Input.GetKeyDown(KeyCode.D))
                         {
-                            FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                            FindObjectOfType<AudioManager>().Play("SelectSFX", GameManager.sfxVolume);
                             SwapGhostSprites(1);
                         }
 
                         //If the player presses 1, they are ready
                         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
                         {
-                            FindObjectOfType<AudioManager>().Play("ClickSFX", 1);
+                            FindObjectOfType<AudioManager>().Play("ClickSFX", GameManager.sfxVolume);
                             ReadyCustomPlayer(0, 1);
                         }
                         break;
@@ -324,8 +326,8 @@ public class TitlescreenManager : MonoBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
             {
-                FindObjectOfType<AudioManager>().Play("CancelSFX", 1);
-                UnreadyPlayer(0);
+                FindObjectOfType<AudioManager>().Play("CancelSFX", GameManager.sfxVolume);
+                UnreadyCustomPlayer(0);
             }
 
             //If player two is not ready, check for input here
@@ -338,20 +340,20 @@ public class TitlescreenManager : MonoBehaviour
                         //Player Two Left
                         if (Input.GetKeyDown(KeyCode.LeftArrow))
                         {
-                            FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                            FindObjectOfType<AudioManager>().Play("SelectSFX", GameManager.sfxVolume);
                             SwapPacmanSprites(-1);
                         }
                         //Player Two Right
                         else if (Input.GetKeyDown(KeyCode.RightArrow))
                         {
-                            FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                            FindObjectOfType<AudioManager>().Play("SelectSFX", GameManager.sfxVolume);
                             SwapPacmanSprites(1);
                         }
 
                         //If the player presses 2, they are ready
                         if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
                         {
-                            FindObjectOfType<AudioManager>().Play("ClickSFX", 1);
+                            FindObjectOfType<AudioManager>().Play("ClickSFX", GameManager.sfxVolume);
                             ReadyCustomPlayer(1, 0);
 
                         }
@@ -361,20 +363,20 @@ public class TitlescreenManager : MonoBehaviour
                         //Player Two Left
                         if (Input.GetKeyDown(KeyCode.LeftArrow))
                         {
-                            FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                            FindObjectOfType<AudioManager>().Play("SelectSFX", GameManager.sfxVolume);
                             SwapGhostSprites(-1);
                         }
                         //Player Two Right
                         else if (Input.GetKeyDown(KeyCode.RightArrow))
                         {
-                            FindObjectOfType<AudioManager>().Play("SelectSFX", 1);
+                            FindObjectOfType<AudioManager>().Play("SelectSFX", GameManager.sfxVolume);
                             SwapGhostSprites(1);
                         }
 
                         //If the player presses 2, they are ready
                         if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
                         {
-                            FindObjectOfType<AudioManager>().Play("ClickSFX", 1);
+                            FindObjectOfType<AudioManager>().Play("ClickSFX", GameManager.sfxVolume);
                             ReadyCustomPlayer(1, 1);
                         }
                         break;
@@ -382,8 +384,8 @@ public class TitlescreenManager : MonoBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
             {
-                FindObjectOfType<AudioManager>().Play("CancelSFX", 1);
-                UnreadyPlayer(1);
+                FindObjectOfType<AudioManager>().Play("CancelSFX", GameManager.sfxVolume);
+                UnreadyCustomPlayer(1);
             }
         }
     }//end of CustomizePlayers
@@ -429,6 +431,8 @@ public class TitlescreenManager : MonoBehaviour
             case 0:
                 Debug.Log("Pacman Data Saved!");
                 //TODO: Save the Pacman Sprite Data
+                GameManager.instance.pacmanSkinNumber = playerCustomizerIndex[0];
+                Debug.Log("Pacman Skin: " + GameManager.instance.pacmanSkinNumber);
                 break;
             //Save Ghost data
             case 1:
@@ -442,6 +446,15 @@ public class TitlescreenManager : MonoBehaviour
             StartGame();
         }
     }//end of ReadyCustomPlayer
+
+    private void UnreadyCustomPlayer(int playerIndex)
+    {
+        playerReady[playerIndex] = false;
+        customizationArrowObjects[playerIndex].SetActive(true);
+        customizeReadyObjects[playerIndex].SetActive(false);
+    }//end of UnreadyCustomPlayer
+
+    #endregion
 
     #region StartGame
     private void StartGame()
@@ -463,9 +476,8 @@ public class TitlescreenManager : MonoBehaviour
     IEnumerator QuitGameDelay()
     {
         Debug.Log("Quitting Game...");
-        FindObjectOfType<AudioManager>().Play("CancelSFX", 1);
+        FindObjectOfType<AudioManager>().Play("CancelSFX", GameManager.sfxVolume);
         yield return new WaitForSeconds(0.25f);
-        FindObjectOfType<AudioManager>().Play("CancelSFX", 1);
         Application.Quit();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

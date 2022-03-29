@@ -9,6 +9,11 @@ public class PacmanController : PlayerController
 {
     //adding life counter 
     public int life;
+    private Vector3 oldPosition;
+    private Vector3 previousDifferences;
+    private int notMovingFrames;
+    private float currentWakaTimer;
+    private float wakaTimer = 0.25f;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +25,7 @@ public class PacmanController : PlayerController
         canRotateSprite = false;
         secondsUntilStart = LevelManager.Level.secondsUntilStart;
         canMove = false;
+        oldPosition = transform.position;
         StartCoroutine(MovementCooldown());
     }
 
@@ -27,6 +33,28 @@ public class PacmanController : PlayerController
     void Update()
     {
         GetPlayerInput();
+        if (canMove)
+        {
+            if (previousDifferences.x == Mathf.Abs(oldPosition.x - transform.position.x) 
+                && previousDifferences.y == Mathf.Abs(oldPosition.y - transform.position.y))
+            {
+                notMovingFrames++;
+                if(notMovingFrames > 5)
+                {
+                    GetComponent<Animator>().SetFloat("Speed", 0);
+                    GetComponent<Animator>().SetBool("IsIdle", true);
+                }
+            }
+            else
+            {
+                notMovingFrames = 0;
+                GetComponent<Animator>().SetBool("IsIdle", false);
+                GetComponent<Animator>().SetFloat("Speed", 1);
+            }
+            previousDifferences.x = Mathf.Abs(oldPosition.x - transform.position.x);
+            previousDifferences.y = Mathf.Abs(oldPosition.y - transform.position.y);
+            previousDifferences.z = Mathf.Abs(oldPosition.z - transform.position.z);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -66,15 +94,40 @@ public class PacmanController : PlayerController
 
             pelletMap.SetTile(pelletPosition, null);
             LevelManager.Level.RemovePellet();
+
+            //If the waka sound is playing, reset the waka timer
+            if(currentWakaTimer > 0)
+            {
+                currentWakaTimer = wakaTimer;
+            }
+            //If the waka sound is not playing, start playing it
+            else
+            {
+                FindObjectOfType<AudioManager>().Play("Waka", GameManager.sfxVolume);
+                StartCoroutine(WakaTimer());
+            }
+
             //If there are no more pellets, game is over and return to the main menu
             if (LevelManager.Level.GetTotalPellets() == 0)
                 LevelManager.Level.EndAnimation();
 
         }
-
     }
 
-    protected override void OnRotation()
+    IEnumerator WakaTimer()
+    {
+        currentWakaTimer = wakaTimer;
+        FindObjectOfType<AudioManager>().Play("Waka", GameManager.sfxVolume);
+
+        while (currentWakaTimer > 0 && !GameManager.instance.isGameAnimationActive)
+        {
+            currentWakaTimer -= Time.deltaTime;
+            yield return null;
+        }
+        FindObjectOfType<AudioManager>().Stop("Waka");
+    }
+
+    public override void OnRotation()
     {
         switch (axis)
         {
@@ -87,7 +140,7 @@ public class PacmanController : PlayerController
         }
     }
 
-    private void FlipSprite(int axis, int direction)
+    public void FlipSprite(int axis, int direction)
     {
         //Rotate back to zero degrees
         gameObject.transform.Rotate(0.0f, 0.0f, -rotDegree, Space.World);
@@ -102,6 +155,16 @@ public class PacmanController : PlayerController
         }
         //Rotate object based on the direction that they are moving
         gameObject.transform.Rotate(0.0f, 0.0f, rotDegree, Space.World);
+
+        //Flip sprite for left rotation
+        if (horizontal < 0)
+        {
+            transform.localScale = new Vector3(transform.localScale.x, -1, transform.localScale.z);
+        }
+        else
+        {
+            transform.localScale = new Vector3(transform.localScale.x, 1, transform.localScale.z);
+        }
     }//end of FlipSprite
 
 }

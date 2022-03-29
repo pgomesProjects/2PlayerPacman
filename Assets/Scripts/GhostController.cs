@@ -6,10 +6,8 @@ using TMPro;
 
 public class GhostController : PlayerController
 {
-    public float secondsUntilActive = 3;
-    public TextMeshProUGUI gameOverText;
+    public float secondsUntilActive = 0;
 
-    public Image[] allLiveSprites;
     public float powerPelletTimer = 10;
     public Sprite[] eyeSprites;
     private float currentPelletTimer;
@@ -21,6 +19,12 @@ public class GhostController : PlayerController
     private bool isRegularVulnerableSprite;
     private SpriteRenderer currentEyes;
 
+    [HideInInspector] public bool deathAniComplete = false;
+    [HideInInspector] public bool restartAniComplete = false;
+
+    private float normalSpeed;
+    private float vulnerableMultiplier = 0.85f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,14 +35,18 @@ public class GhostController : PlayerController
 
         isVulnerable = false;
         currentPelletTimer = powerPelletTimer;
-        ghostColor = GetComponent<SpriteRenderer>().color;
+        ghostColor = GameManager.instance.ghostColor;
 
         secondsUntilStart = LevelManager.Level.secondsUntilStart + secondsUntilActive;
         currentColor = ghostColor;
-        
+        canRotateSprite = false;
+
+        normalSpeed = speed;
+
+        direction = new Vector2(0, 1);
+
         canMove = false;
         rotDegree = transform.rotation.z;
-        canRotateSprite = true;
         StartCoroutine(MovementCooldown());
 
     }
@@ -54,14 +62,19 @@ public class GhostController : PlayerController
         if (isVulnerable)
         {
             currentPelletTimer = powerPelletTimer;
+            currentColor = vulnerableColor;
+            currentEyes.color = new Color(1, 1, 1);
+            GetComponent<SpriteRenderer>().color = currentColor;
         }
         else
         {
+            FindObjectOfType<AudioManager>().Play("PowerPelletSFX", GameManager.sfxVolume * 0.55f);
             isVulnerable = true;
             currentColor = vulnerableColor;
             currentEyes.sprite = eyeSprites[4];
             GetComponent<SpriteRenderer>().color = currentColor;
             StartCoroutine(VulnerableTimer());
+            speed = speed * vulnerableMultiplier;
         }
     }
 
@@ -72,7 +85,7 @@ public class GhostController : PlayerController
         float currentBlinkingTimer = 0;
         isRegularVulnerableSprite = true;
 
-        while (currentPelletTimer > 0)
+        while (currentPelletTimer > 0 && !GameManager.instance.isGameAnimationActive)
         {
             currentPelletTimer -= Time.deltaTime;
             if(currentPelletTimer < 3)
@@ -101,9 +114,11 @@ public class GhostController : PlayerController
         }
 
         isVulnerable = false;
+        FindObjectOfType<AudioManager>().Stop("PowerPelletSFX");
         currentColor = ghostColor;
         currentEyes.color = new Color(1, 1, 1);
         GetComponent<SpriteRenderer>().color = currentColor;
+        speed = normalSpeed;
         OnRotation();
     }
 
@@ -119,42 +134,31 @@ public class GhostController : PlayerController
             PacmanController pacmanController = collision.gameObject.GetComponent<PacmanController>();
             Debug.Log("Pacman Lives: " + (pacmanController.life - 1));
             pacmanController.life--;
-            //If the player has no lives, end the game
-            if (pacmanController.life == -1)
-            {
-                canRotateSprite = false;
-                FindObjectOfType<AudioManager>().Stop("InGameMusic");
-                GameManager.instance.isGameAnimationActive = true;
-                gameOverText.gameObject.SetActive(true);
-                canMove = false;
-                pacmanController.gameObject.SetActive(false);
-                foreach (var i in LevelManager.Level.pausePrompts)
-                    i.SetActive(false);
-                GameManager.instance.EndGame("Titlescreen", 3);
-            }
-            //Else, take a life from the player and move both players to their spawn points
-            else
-            {
-                allLiveSprites[pacmanController.life].gameObject.SetActive(false);
-                pacmanController.transform.position = pacmanController.spawnPoint.transform.position;
-                transform.position = spawnPoint.transform.position;
-            }
+            StartCoroutine(LevelManager.Level.DeathAnimation());
         }
         else if(collision.gameObject.tag == "Pacman" && isVulnerable)
         {
             currentPelletTimer = 0;
+            FindObjectOfType<AudioManager>().Play("GhostEat", GameManager.sfxVolume);
             StopCoroutine(VulnerableTimer());
             currentColor = ghostColor;
             currentEyes.color = new Color(1, 1, 1);
             GetComponent<SpriteRenderer>().color = currentColor;
             isVulnerable = false;
             OnRotation();
+            FindObjectOfType<AudioManager>().Stop("PowerPelletSFX");
+            speed = normalSpeed;
             transform.position = spawnPoint.transform.position;
         }
         
     }
 
-    protected override void OnRotation()
+    public void ChangeEyes(int eyeNum)
+    {
+        currentEyes.sprite = eyeSprites[eyeNum];
+    }
+
+    public override void OnRotation()
     {
         if (!isVulnerable)
         {
@@ -164,24 +168,24 @@ public class GhostController : PlayerController
                     //Right
                     if (direction.x > 0)
                     {
-                        currentEyes.sprite = eyeSprites[0];
+                        ChangeEyes(0);
                     }
                     //Left
                     else
                     {
-                        currentEyes.sprite = eyeSprites[1];
+                        ChangeEyes(1);
                     }
                     break;
                 case 1:
                     //Down
                     if (direction.y > 0)
                     {
-                        currentEyes.sprite = eyeSprites[2];
+                        ChangeEyes(2);
                     }
                     //Up
                     else
                     {
-                        currentEyes.sprite = eyeSprites[3];
+                        ChangeEyes(3);
                     }
                     break;
             }
